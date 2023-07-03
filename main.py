@@ -1,78 +1,60 @@
 import random
 
 
-def determine_winner(player_choice, computer_choice):
-    if player_choice == computer_choice:
-        return "tie"
-    elif player_choice == "rock":
-        if computer_choice == "paper":
-            return "computer"
-        else:
-            return "player"
-    elif player_choice == "paper":
-        if computer_choice == "scissors":
-            return "computer"
-        else:
-            return "player"
-    elif player_choice == "scissors":
-        if computer_choice == "rock":
-            return "computer"
-        else:
-            return "player"
+def play_game():
+    user_choice = input("Enter your choice (rock, paper, or scissors): ")
+    user_choice = user_choice.lower()
+    computer_choice = random.choice(['rock', 'paper', 'scissors'])
 
+    print("Your choice:", user_choice)
+    print("Computer's choice:", computer_choice)
 
-# Initialize scores
-player_score = 0
-computer_score = 0
-tie = 0
-draws = 0
-
-while True:
-    player_choice = input(
-        "Enter your choice (rock, paper, scissors) or 'q' to quit: ")
-
-    # Handle quit option
-    if player_choice.lower() == "q":
-        break
-
-    # Validate user input
-    if player_choice not in ["rock", "paper", "scissors"]:
-        print("Invalid input. Please enter 'rock', 'paper', 'scissors', or 'q' to quit.")
-        continue
-
-    computer_choice = random.choice(["rock", "paper", "scissors"])
-
-    winner = determine_winner(player_choice, computer_choice)
-
-    # Update scores
-    if winner == "player":
-        player_score += 1
-        draws += 1
-    elif winner == "computer":
-        computer_score += 1
-        draws += 1
-    else:
-        tie += 1
-        draws += 1
-
-    print(f"\nPlayer's choice: {player_choice}")
-    print(f"Computer's choice: {computer_choice}")
-
-    if winner == "player":
+    if user_choice == computer_choice:
+        print("It's a draw!")
+        return 'draw'
+    elif (
+        (user_choice == 'rock' and computer_choice == 'scissors') or
+        (user_choice == 'scissors' and computer_choice == 'paper') or
+        (user_choice == 'paper' and computer_choice == 'rock')
+    ):
         print("You win!")
-    elif winner == "computer":
-        print("Computer wins!")
+        return 'user'
     else:
-        print("It's a tie!")
+        print("Computer wins!")
+        return 'computer'
 
-    # Display scores
-    print(f"\n-------------------------------")
-    print(f"Scores:")
-    print("-------------------------------")
-    print("Player | Computer | Tie | Draws")
-    print("-------------------------------")
-    print(f"{player_score}      | {computer_score}        | {tie}   | {draws}")
-    print("-------------------------------")
 
-# Game over
-print("Thank you for playing!")
+
+def main():
+    user_score = 0
+    computer_score = 0
+    draw_count = 0
+
+    while True:
+        print("Rock, Paper, Scissors Game")
+        print("----------------------------")
+
+        result = play_game()
+
+        if result == 'user':
+            user_score += 1
+        elif result == 'computer':
+            computer_score += 1
+        else:
+            draw_count += 1
+
+        print("----------------------------")
+        print("Score:")
+        print(f"User: {user_score}")
+        print(f"Computer: {computer_score}")
+        print(f"Draws: {draw_count}")
+        print("----------------------------")
+
+        choice = input("Do you want to play again? (yes/no): ")
+        if choice.lower() != 'yes':
+            break
+
+    print("Thank you for playing!")
+
+if __name__ == '__main__':
+    main()
